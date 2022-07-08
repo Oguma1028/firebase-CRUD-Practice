@@ -3,6 +3,7 @@ import { db } from "./firebase";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -46,6 +47,11 @@ function App() {
     console.log(docRef);
   };
 
+  const deleteUser = async (id) => {
+    const deleteUserRef = doc(db, "users", id);
+    await deleteDoc(deleteUserRef);
+  };
+
   return (
     <>
       <div>
@@ -64,7 +70,10 @@ function App() {
       <h1>ユーザー一覧</h1>
       <div>
         {users.map((user) => (
-          <div key={user.id}>{user.name}</div>
+          <div key={user.id}>
+            <span>{user.name}</span>
+            <button onClick={() => deleteUser(user.id)}>削除</button>
+          </div>
         ))}
       </div>
     </>
